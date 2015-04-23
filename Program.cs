@@ -99,6 +99,8 @@ namespace XmlDocRinse {
             if (!type.IsVisible) {
                 return;
             }
+            // Nested types have a '+' before the final part, but the XML has a '.'
+            stringSet.Add(string.Format("T:{0}", type.FullName.Replace('+', '.')));
             var members = type.GetMembers(BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
             foreach (var member in members) {
                 Add(type, member);
@@ -126,6 +128,13 @@ namespace XmlDocRinse {
                     AppendField(sb, (FieldInfo)member);
                     break;
                 case MemberTypes.Method:
+                    if (member.Name.StartsWith("get_") || member.Name.StartsWith("set_")) {
+                        // It's a property as far as the XML is concerned
+                        if (IsVisible((MethodInfo)member)) {
+                            sb.AppendFormat("P:{0}.{1}", member.DeclaringType, member.Name.Substring(4));
+                            break;
+                        }
+                    }
                     sb.Append("M:");
                     AppendMethod(sb, (MethodInfo)member);
                     break;
