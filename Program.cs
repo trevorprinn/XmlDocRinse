@@ -194,7 +194,7 @@ namespace XmlDocRinse {
         }
 
         private bool IsVisible(MethodInfo methodInfo) {
-            return methodInfo.IsFamily || methodInfo.IsPublic;
+            return methodInfo.IsFamily || methodInfo.IsPublic || methodInfo.IsFamilyOrAssembly;
         }
 
         private void AppendParameters(StringBuilder sb, ParameterInfo[] parameterInfo) {
@@ -222,7 +222,7 @@ namespace XmlDocRinse {
         }
 
         private bool IsVisible(FieldInfo fieldInfo) {
-            return fieldInfo.IsFamily || fieldInfo.IsPublic;
+            return fieldInfo.IsFamily || fieldInfo.IsPublic || fieldInfo.IsFamilyOrAssembly;
         }
 
         private void AppendEvent(StringBuilder sb, EventInfo eventInfo) {
@@ -249,7 +249,7 @@ namespace XmlDocRinse {
         }
 
         private bool IsVisible(ConstructorInfo constructorInfo) {
-            return constructorInfo.IsFamily || constructorInfo.IsPublic;
+            return constructorInfo.IsFamily || constructorInfo.IsPublic || constructorInfo.IsFamilyOrAssembly;
         }
 
         private void AppendType(StringBuilder sb, Type type) {
